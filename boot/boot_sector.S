@@ -1,9 +1,10 @@
 ; TODO: Rewrite this file in AT&T syntax
 ; TODO: Support UEFI boot
 
-bits 16
+org     0x7c00
+bits    16
 
-    mov     bx, 0x7c00 + _str
+    mov     bx, _str
     call    puts
     jmp     $
 
