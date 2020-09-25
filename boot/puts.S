@@ -14,24 +14,31 @@ _puts_loop:
 
     ret
 
+putxw:
+    xchg    bh, bl
+    call    putxb
+    xchg    bh, bl
+    call    putxb
+    ret
+
 ; Prints a byte in hex characters from the BL register
-putx:
+putxb: ; 0x7c2d
     mov     ah, 0eh
     mov     cl, bl
     shr     cl, 4
-    call    putx_single
+    call    putx_nible
     int     10h
     mov     cl, bl
-    call    putx_single
+    call    putx_nible
     int     10h
     ret
 
 
-putx_single: ; Nible in CL, ret in AL
+putx_nible: ; Nible in CL, ret in AL
     mov     al, cl
     and     al, 0fh
-    cmp     cl, 0ah
-    jge     _putx_above
+    cmp     al, 0ah
+    jae     _putx_above
     add     al, '0'
     jmp     _putx_end
 _putx_above:
