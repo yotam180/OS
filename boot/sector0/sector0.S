@@ -28,6 +28,14 @@
 
     jmp GDT_CODE_SEGMENT:BrCall32BitEntryPoint
 
+; Includes
+; TODO: Find a way to not write sector0/ here
+%include "sector0/puts.S"
+%include "sector0/disk.S"
+%include "sector0/gdt.S"
+
+
+bits 32
 BrCall32BitEntryPoint:
     mov     eax, GDT_DATA_SEGMENT   ; Initializing the segment registers
     mov     ds, eax
@@ -35,13 +43,9 @@ BrCall32BitEntryPoint:
     mov     es, eax
     mov     fs, eax
     mov     gs, eax
-    jmp     [NEXT_CODE_EXEC]
+    mov     eax, NEXT_CODE_EXEC
+    jmp     eax
 
-; Includes
-; TODO: Find a way to not write sector0/ here
-%include "sector0/puts.S"
-%include "sector0/disk.S"
-%include "sector0/gdt.S"
 
 ; Globals
 _BootDrive:

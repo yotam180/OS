@@ -5,8 +5,6 @@
 
 ; Bp - Boot protected (32 bit mode)
 BpMain:
-    jmp $
-
     mov     edi, _HelloFromProtected
     call    BpPutString
     jmp     $                       ; Guard loop
