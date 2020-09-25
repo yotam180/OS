@@ -5,22 +5,22 @@
     bits    16
 
     STACK_START     equ 8000h
-    CODE_POINTER    equ 9000h
+    NEXT_CODE_EXEC  equ 9000h
 
 ; Main Code
-    mov [g_boot_drive], dl
+    mov     [_BootDrive], dl
 
     mov     bp, STACK_START             ; Initialize Stack
     mov     sp, bp
 
-    mov     bx, CODE_POINTER            ; Dst address
+    mov     bx, NEXT_CODE_EXEC            ; Dst address
     mov     al, 1                       ; Sectors
-    call    load_firmware
+    call    BrLoadFirmwareSectors
 
-    mov     bx, [CODE_POINTER]
-    call    putxw
+    mov     bx, [NEXT_CODE_EXEC]
+    call    BrPutHexWord
 
-    jmp     CODE_POINTER
+    jmp     NEXT_CODE_EXEC
 
 ; Includes
 ; TODO: Find a way to not write sector0/ here
@@ -28,7 +28,7 @@
 %include "sector0/disk.S"
 
 ; Globals
-g_boot_drive:
+_BootDrive:
     db    0
 
 ; Padding

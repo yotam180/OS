@@ -1,47 +1,49 @@
+; Br = Boot Real (real mode)
+
 ; Given a pointer to a NULL terminated string, prints that string
 ; to the screen.
 ;
 ; Arguments:
 ;   BX - pointer to the string
-puts:
+BrPutString:
     mov     ah, 0eh
-_puts_loop:
+_BrPutString_loop:
     mov     al, byte [bx]
     int     10h
     inc     bx
     cmp     byte [bx], 0
-    jnz     _puts_loop
+    jnz     _BrPutString_loop
 
     ret
 
-putxw:
+BrPutHexWord:
     xchg    bh, bl
-    call    putxb
+    call    BrPutHexByte
     xchg    bh, bl
-    call    putxb
+    call    BrPutHexByte
     ret
 
 ; Prints a byte in hex characters from the BL register
-putxb:
+BrPutHexByte:
     mov     ah, 0eh
     mov     cl, bl
     shr     cl, 4
-    call    putx_nible
+    call    BrPutHexNibble
     int     10h
     mov     cl, bl
-    call    putx_nible
+    call    BrPutHexNibble
     int     10h
     ret
 
 
-putx_nible: ; Nible in CL, ret in AL
+BrPutHexNibble: ; Nible in CL, ret in AL
     mov     al, cl
     and     al, 0fh
     cmp     al, 0ah
-    jae     _putx_above
+    jae     _BrPutHexNibble_Above
     add     al, '0'
-    jmp     _putx_end
-_putx_above:
+    jmp     _BrPutHexNibble_End
+_BrPutHexNibble_Above:
     add     al, 'a' - 0ah
-_putx_end:
+_BrPutHexNibble_End:
     ret

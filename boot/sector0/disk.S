@@ -4,7 +4,7 @@
 ; 
 ; Return:
 ; al    - the number of sectors read
-load_firmware:
+BrLoadFirmwareSectors:
     push    bp
     mov     bp, sp
     push    ax
@@ -14,30 +14,32 @@ load_firmware:
     mov     cl, 2       ; Sector
 
     int     13h
-    jc     _disk_load_fail
+    jc     _BrLoadFirmwareSectors_Fail
 
     pop     dx
     cmp     al, dl
-    jne     _disk_load_fail_2
+    jne     _BrLoadFirmwareSectors_Fail_2
 
     mov     sp, bp
     pop     bp
     ret
     
 
-_disk_load_fail:
+_BrLoadFirmwareSectors_Fail:
     ; Print error and die
-    mov     bx, _error_str
-    call    puts
+    mov     bx, _CouldNotReadDisk
+    call    BrPutString
     jmp     $
 
-_disk_load_fail_2:
-    mov     bx, _error_str_2
-    call    puts
+
+_BrLoadFirmwareSectors_Fail_2:
+    mov     bx, _DidNotReadTheCorrectAmount
+    call    BrPutString
     jmp     $
 
-_error_str:
+
+_CouldNotReadDisk:
     db      "Could not read disk", 0
 
-_error_str_2:
+_DidNotReadTheCorrectAmount:
     db      "Did not read the correct amount of sectors", 0
