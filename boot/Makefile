@@ -4,4 +4,4 @@ all:
 	cat sector0.bin post_bios.bin > disk.bin
 
 clean:
-	rm boot_sector
+	rm *.bin
