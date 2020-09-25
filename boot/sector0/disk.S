@@ -4,7 +4,10 @@
 ; 
 ; Return:
 ; al    - the number of sectors read
-load_firmware:  
+load_firmware:
+    push    bp
+    mov     bp, sp
+    push    ax
     mov     ah, 02h
     mov     ch, 0       ; Cylinder
     mov     cl, 1       ; Sector
@@ -13,6 +16,13 @@ load_firmware:
 
     int     13h
     jc     _disk_load_fail
+
+    pop     dx
+    cmp     al, dl
+    jne     _disk_load_fail_2
+
+    mov     sp, bp
+    pop     bp
     ret
     
 
@@ -22,5 +32,13 @@ _disk_load_fail:
     call    puts
     jmp     $
 
+_disk_load_fail_2:
+    mov     bx, _error_str_2
+    call    puts
+    jmp     $
+
 _error_str:
     db      "Could not read disk", 0
+
+_error_str_2:
+    db      "Did not read the correct amount of sectors", 0
