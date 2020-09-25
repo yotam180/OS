@@ -4,20 +4,23 @@
     org     7c00h
     bits    16
 
+STACK_START     equ 8000h
+CODE_POINTER    equ 9000h
+
 ; Main Code
     mov [g_boot_drive], dl
 
-    mov     bp, 8000h                   ; Initialize Stack
+    mov     bp, STACK_START             ; Initialize Stack
     mov     sp, bp
 
-    mov     bx, 9000h                   ; Dst address
+    mov     bx, CODE_POINTER            ; Dst address
     mov     al, 1                       ; Sectors
     call    load_firmware
 
-    mov     bx, [9000h]
+    mov     bx, [CODE_POINTER]
     call    putxw
 
-    jmp     $
+    jmp     CODE_POINTER
 
 ; Includes
 ; TODO: Find a way to not write sector0/ here
