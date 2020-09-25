@@ -10,9 +10,8 @@ load_firmware:
     push    ax
     mov     ah, 02h
     mov     ch, 0       ; Cylinder
-    mov     cl, 1       ; Sector
-    mov     dh, 0       ; Track
-    mov     dl, 0       ; Drive
+    mov     dh, 0       ; Head
+    mov     cl, 2       ; Sector
 
     int     13h
     jc     _disk_load_fail

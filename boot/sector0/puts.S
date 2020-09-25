@@ -22,7 +22,7 @@ putxw:
     ret
 
 ; Prints a byte in hex characters from the BL register
-putxb: ; 0x7c2d
+putxb:
     mov     ah, 0eh
     mov     cl, bl
     shr     cl, 4

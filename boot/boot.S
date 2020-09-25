@@ -1,3 +1,6 @@
+; Boot Sector
 %include "sector0/sector0.S"
 
-db      "This is the rest of the boot sector"
+; More Sectors
+times 256 dw 1337h
+times 256 dw 2020h
