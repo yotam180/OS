@@ -4,8 +4,8 @@
 org     0x7c00
 bits    16
 
-    mov     bx, _str
-    call    puts
+    mov     bx, 5dh
+    call    putx
     jmp     $
 
 _str:

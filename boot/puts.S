@@ -13,3 +13,28 @@ _puts_loop:
     jnz     _puts_loop
 
     ret
+
+; Prints a byte in hex characters from the BL register
+putx:
+    mov     ah, 0eh
+    mov     cl, bl
+    shr     cl, 4
+    call    putx_single
+    int     10h
+    mov     cl, bl
+    call    putx_single
+    int     10h
+    ret
+
+
+putx_single: ; Nible in CL, ret in AL
+    mov     al, cl
+    and     al, 0fh
+    cmp     cl, 0ah
+    jge     _putx_above
+    add     al, '0'
+    jmp     _putx_end
+_putx_above:
+    add     al, 'a' - 0ah
+_putx_end:
+    ret
