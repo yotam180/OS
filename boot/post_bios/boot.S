@@ -1,4 +1,5 @@
     bits 32
+    org 9000h
 
     VIDEO_MEMORY    equ 0b8000h
     WHITE_ON_BLACK  equ 0fh
@@ -11,7 +12,7 @@ BpMain:
 
 
 _HelloFromProtected:
-    db      "Hello from protected mode!\n", 0
+    db      "Hello from protected mode!           ", 0
 
 
 ; Prints a string to the beginning of the text-mode VGA memory
@@ -25,6 +26,7 @@ _BpPutString_Loop:
     mov     byte [edx], cl
     inc     edx
     mov     byte [edx], WHITE_ON_BLACK
+    inc     edx
     inc     edi
     jmp     _BpPutString_Loop
 _BpPutString_End:
