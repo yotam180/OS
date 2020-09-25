@@ -3,10 +3,7 @@
 
 bits 16
 
-    call _next
-_next:
-    pop     bx
-    add     bx, (_str-$+1)
+    mov     bx, 0x7c00 + _str
     call    puts
     jmp     $
 
