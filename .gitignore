@@ -2,3 +2,4 @@ boot/boot_sector
 
 *.o
 *.elf
+*.bin
