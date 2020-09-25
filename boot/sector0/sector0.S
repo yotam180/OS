@@ -8,10 +8,8 @@ bits    16
     call    putxw
     jmp     $
 
-_str:
-    db      "Hello, world!", 0
-
-%include "puts.S"
+; TODO: Find a way to not write sector0/ here
+%include "sector0/puts.S"
 
     times   510-($-$$) db 0             ; TODO: Rewrite this but with understanding of the $ and $$ signs
     dw      0xaa55

@@ -1,5 +1,5 @@
 all:
-	nasm boot_sector.S -o boot_sector
+	nasm boot.S -o boot_sector
 
 clean:
 	rm boot_sector
