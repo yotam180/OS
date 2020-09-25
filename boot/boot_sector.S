@@ -7,20 +7,20 @@ bits 16
 _next:
     pop     bx
     add     bx, (_str-$+1)
-    call    print
+    call    puts
     jmp     $
 
 _str:
     db      "Hello, world!", 0
 
-print:                                  ; Pointer in bx
+puts:                                  ; Pointer in bx
     mov     ah, 0eh
-_print_loop:
+_puts_loop:
     mov     al, byte [bx]
     int     10h
     inc     bx
     cmp     byte [bx], 0
-    jnz     _print_loop
+    jnz     _puts_loop
 
     ret
 
