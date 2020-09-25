@@ -4,8 +4,8 @@
     org     7c00h
     bits    16
 
-STACK_START     equ 8000h
-CODE_POINTER    equ 9000h
+    STACK_START     equ 8000h
+    CODE_POINTER    equ 9000h
 
 ; Main Code
     mov [g_boot_drive], dl
