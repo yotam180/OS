@@ -4,11 +4,13 @@
 namespace OS
 {
 
-struct ColoredChar
+typedef struct
 {
     char Char;
     byte Color;
-};
+} COLORED_CHAR, *PCOLORED_CHAR;
+
+using PVCOLORED_CHAR = volatile COLORED_CHAR *;
 
 class TextDisplay final
 {
@@ -19,12 +21,12 @@ public:
     }
 
     inline void Print(const char *const text);
-    inline void PrintChar(const ColoredChar c);
+    inline void PrintChar(const COLORED_CHAR c);
 
 private:
     inline void PrintNewLine();
-    inline void SetChar(const size_t index, const ColoredChar c);
-    inline volatile ColoredChar *GetVideoBuffer() const;
+    inline void SetChar(const size_t index, const COLORED_CHAR c);
+    inline PVCOLORED_CHAR GetVideoBuffer() const;
 
 private:
     size_t _Width;
@@ -36,12 +38,12 @@ private:
 } // namespace OS
 
 // Inlines
-volatile OS::ColoredChar *OS::TextDisplay::GetVideoBuffer() const
+OS::PVCOLORED_CHAR OS::TextDisplay::GetVideoBuffer() const
 {
-    return reinterpret_cast<volatile ColoredChar *>(reinterpret_cast<volatile void *>(0xb8000));
+    return reinterpret_cast<PVCOLORED_CHAR>(reinterpret_cast<volatile void *>(0xb8000));
 }
 
-void OS::TextDisplay::SetChar(const size_t index, const ColoredChar c)
+void OS::TextDisplay::SetChar(const size_t index, const COLORED_CHAR c)
 {
     GetVideoBuffer()[index].Char = c.Char; // TODO: Hack to not define vol-nonvol assignment operator. C++ sucks on this one :(
     GetVideoBuffer()[index].Color = c.Color;
@@ -55,7 +57,7 @@ void OS::TextDisplay::Print(const char *const text)
     }
 }
 
-void OS::TextDisplay::PrintChar(const ColoredChar c)
+void OS::TextDisplay::PrintChar(const COLORED_CHAR c)
 {
     if (c.Char == '\n')
     {
