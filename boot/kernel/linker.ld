@@ -1,23 +1,23 @@
 SECTIONS
 {
     . = 1M;
-    .text BLOCK(4K) : ALIGN(4K)
+    .text 0x9000 : ALIGN(1K)
     {
         bin/KernelEntry.o(.text)
         bin/Kernel.o(.text)
     }
 
-    .rodata BLOCK(4K) : ALIGN(4K)
+    .rodata BLOCK(1K) : ALIGN(1K)
     {
         *(.rodata)
     }
 
-    .data BLOCK(4K) : ALIGN(4K)
+    .data BLOCK(1K) : ALIGN(1K)
     {
         *(.data)
     }
 
-    .bss BLOCK(4K) : ALIGN(4K)
+    .bss BLOCK(1K) : ALIGN(1K)
     {
         *(COMMON)
         *(.bss)

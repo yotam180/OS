@@ -1,4 +1,5 @@
 #include "Ktype.hpp"
+#include "TextMode/TextMode.hpp"
 
 /*
 TODO: This kernel is currently embedded into the bootloader. This is not very good, but it
@@ -9,9 +10,13 @@ Next, we should really port the kernel to work with the multiboot standard, so i
 by a pre-made bootloader such as GRUB.
 */
 
+volatile char g_char = 'A';
+volatile char *x;
+
 extern "C" void KeStart()
 {
-    volatile VCHAR *videoMemory = reinterpret_cast<VCHAR *>(0xb8000);
-    videoMemory[0].Char = 'A';
+    x = reinterpret_cast<volatile char *>(&KeStart);
+    volatile ColoredChar *videoMemory = reinterpret_cast<ColoredChar *>(0xb8000);
+    videoMemory[0].Char = g_char;
     videoMemory[0].Color = 0xf;
 }
