@@ -2,6 +2,9 @@
 
 #include "TextMode/TextMode.hpp"
 
+Arch::IDT_ENTRY Arch::_IDT[IDT_SIZE];
+Arch::IDTR Arch::_IDTR;
+
 void Arch::SetIDTGate(const SIZE_T index, const PVOID gate)
 {
     _IDT[index].OffsetLow = reinterpret_cast<SIZE_T>(gate) & 0xffff; // TODO: Macros for these once we need it
@@ -21,8 +24,9 @@ void Arch::SetIDT()
     __asm__ __volatile__("lidt (%0)" ::"r"(&_IDTR));
 }
 
-extern "C" void Arch::KeIsrHandler(Arch::INTERRUPT_STATE state)
+extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE state)
 {
+    UNUSED(state);
     OS::TextDisplay::GetDefault().Print("An interrupt handler was called\n");
 }
 

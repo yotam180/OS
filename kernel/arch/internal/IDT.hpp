@@ -33,8 +33,8 @@ typedef struct
 
 constexpr SIZE_T IDT_SIZE = 256;
 
-IDT_ENTRY _IDT[IDT_SIZE]; // TODO: Maybe define this in a CPP file and not a HPP file
-IDTR _IDTR;
+extern IDT_ENTRY _IDT[IDT_SIZE];
+extern IDTR _IDTR;
 
 typedef struct
 {
@@ -54,6 +54,6 @@ void SetIDT();
 void PopulateIDT();
 
 // This function is called from the assembly code
-extern "C" void KeIsrHandler(INTERRUPT_STATE state);
+extern "C" void KeIsrHandler(const INTERRUPT_STATE state);
 
 } // namespace Arch

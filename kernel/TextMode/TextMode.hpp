@@ -22,7 +22,6 @@ public:
 
     inline void Print(const char *const text);
     inline void PrintChar(const COLORED_CHAR c);
-
     static TextDisplay &GetDefault();
 
 private:
@@ -43,12 +42,6 @@ private:
 OS::PVCOLORED_CHAR OS::TextDisplay::GetVideoBuffer() const
 {
     return reinterpret_cast<PVCOLORED_CHAR>(reinterpret_cast<volatile void *>(0xb8000));
-}
-
-OS::TextDisplay &OS::TextDisplay::GetDefault()
-{
-    static OS::TextDisplay t(80, 25); // TODO: Export to consts
-    return t;
 }
 
 void OS::TextDisplay::SetChar(const SIZE_T index, const COLORED_CHAR c)

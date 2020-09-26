@@ -1,5 +1,6 @@
 #include "Ktype.hpp"
 #include "TextMode/TextMode.hpp"
+#include "arch/internal/IDT.hpp"
 
 /*
 TODO: This kernel is currently embedded into the bootloader. This is not very good, but it
@@ -12,7 +13,12 @@ by a pre-made bootloader such as GRUB.
 
 extern "C" void KeStart()
 {
+    Arch::PopulateIDT(); // TODO: Unify to one function Arch::init or something
+    Arch::SetIDT();
+
     OS::TextDisplay::GetDefault().Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!");
+
+    __asm__ __volatile__("int $2");
 
     while (1)
         ;
