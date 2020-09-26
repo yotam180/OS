@@ -12,8 +12,8 @@ by a pre-made bootloader such as GRUB.
 
 extern "C" void KeStart()
 {
-    OS::TextDisplay t;
-    t.SetChar(0, {'A', 0xf});
+    OS::TextDisplay t(80, 25);
+    t.Print("Hello, world");
 
     while (1)
         ;
