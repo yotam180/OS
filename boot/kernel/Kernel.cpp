@@ -10,13 +10,11 @@ Next, we should really port the kernel to work with the multiboot standard, so i
 by a pre-made bootloader such as GRUB.
 */
 
-volatile char g_char = 'A';
-volatile char *x;
-
 extern "C" void KeStart()
 {
-    x = reinterpret_cast<volatile char *>(&KeStart);
-    volatile ColoredChar *videoMemory = reinterpret_cast<ColoredChar *>(0xb8000);
-    videoMemory[0].Char = g_char;
-    videoMemory[0].Color = 0xf;
+    OS::TextDisplay t;
+    t.set_char(0, {'A', 0xf});
+
+    while (1)
+        ;
 }
