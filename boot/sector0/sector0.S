@@ -14,7 +14,8 @@
     mov     sp, bp
 
     mov     bx, NEXT_CODE_EXEC          ; Dst address
-    mov     al, 3                       ; Sectors, Note: If something breaks it's because of this. TODO: Dynamically calculate sectors to be loaded
+    mov     al, (KernelEnd-KernelStart)/512+1 ; TODO: This fails if kernel is a multiple of 512 bytes
+                                        ; Sectors, Note: If something breaks it's because of this. TODO: Dynamically calculate sectors to be loaded
                                         ; This can be done using a post_bios .S file that just %include's this file, %incbin the Kernel.bin file, sets
                                         ; a label after the Kernel and calculates ceil(kernel_end-kernel_start/512) for this number of sectors.
     call    BrLoadFirmwareSectors

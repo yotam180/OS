@@ -1,7 +1,6 @@
 all:
-	nasm sector0/sector0.S -o sector0.bin
 	make -C kernel
-	cat sector0.bin kernel/bin/Kernel.bin > disk.bin
+	nasm disk.S -o disk.bin
 
 clean:
 	make -C kernel clean
