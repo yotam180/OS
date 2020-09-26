@@ -10,6 +10,9 @@ all: $(BIN_DIR)/Kernel.bin
 $(BIN_DIR)/Kernel.bin: bin/KernelEntry.o $(OBJECTS)
 	ld -T linker.ld -m elf_i386 -o $@ $^ --oformat binary
 
+$(BIN_DIR)/Kernel.elf: bin/KernelEntry.o $(OBJECTS)
+	ld -T linker.ld -m elf_i386 -o $@ $^
+
 $(BIN_DIR)/KernelEntry.o: arch/$(ARCH)/KernelEntry.S
 	mkdir -p $(BIN_DIR)
 	nasm $< -f elf -o $@
@@ -18,6 +21,8 @@ $(BIN_DIR)/%.o: %.cpp
 	echo deps: $<
 	mkdir -p $(shell dirname $@)
 	$(CC) -c $(CFLAGS) $< -o $@
+
+debug: $(BIN_DIR)/Kernel.bin $(BIN_DIR)/Kernel.elf
 
 clean:
 	rm -rf ./bin/
