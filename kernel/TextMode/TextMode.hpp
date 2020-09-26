@@ -57,7 +57,13 @@ void OS::TextDisplay::Print(const char *const text)
 
 void OS::TextDisplay::PrintChar(const ColoredChar c)
 {
-    if (c.Char == '\n' || _Cursor == _Width - 1)
+    if (c.Char == '\n')
+    {
+        PrintNewLine();
+        return;
+    }
+
+    if (_Cursor == _Width - 1)
     {
         PrintNewLine();
     }

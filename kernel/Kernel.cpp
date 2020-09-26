@@ -13,7 +13,7 @@ by a pre-made bootloader such as GRUB.
 extern "C" void KeStart()
 {
     OS::TextDisplay t(80, 25);
-    t.Print("Hello, world");
+    t.Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!");
 
     while (1)
         ;
