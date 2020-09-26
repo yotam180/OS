@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-ffreestanding -std=c++17 -m32 -fno-pie -O2 -fno-exceptions -fno-rtti -Wall -Wextra -pedantic
+CFLAGS=-ffreestanding -std=c++17 -m32 -fno-pie -O2 -fno-exceptions -fno-rtti -Wall -Wextra -pedantic -I./
 BIN_DIR=bin
 FILES=$(shell find . -name "*.cpp" | tr '\n' ' ')
 OBJECTS=$(FILES:%.cpp=$(BIN_DIR)/%.o) # Kernel.cpp -> bin/Kernel.o
