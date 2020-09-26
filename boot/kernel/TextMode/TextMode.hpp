@@ -51,7 +51,7 @@ void OS::TextDisplay::Print(const char *const text)
 {
     for (const char *ptr = text; *ptr != '\0'; ++ptr)
     {
-        PrintChar({*ptr, 0xf}); // Black on White
+        PrintChar({*ptr, 0x02}); // Black on White
     }
 }
 
