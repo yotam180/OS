@@ -13,7 +13,7 @@ by a pre-made bootloader such as GRUB.
 extern "C" void KeStart()
 {
     OS::TextDisplay t;
-    t.set_char(0, {'A', 0xf});
+    t.SetChar(0, {'A', 0xf});
 
     while (1)
         ;

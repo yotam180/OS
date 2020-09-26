@@ -1,27 +1,32 @@
 #pragma once
 #include "../Ktype.hpp"
 
+namespace OS
+{
+
 struct ColoredChar
 {
     char Char;
     byte Color;
 };
 
-namespace OS
-{
 class TextDisplay final
 {
 public:
-    inline void set_char(const size_t index, const ColoredChar c);
-
-private:
-    static volatile ColoredChar *const TEXT_BUFFER_ADDR; // TODO: Make sure this doesn't cause double de-reference
+    inline void SetChar(const size_t index, const ColoredChar c);
+    inline volatile ColoredChar *GetVideoBuffer() const;
 };
+
 } // namespace OS
 
 // Inlines
-inline void OS::TextDisplay::set_char(const size_t index, const ColoredChar c)
+volatile OS::ColoredChar *OS::TextDisplay::GetVideoBuffer() const
 {
-    TEXT_BUFFER_ADDR[index].Char = c.Char; // TODO: Hack to not define vol-nonvol assignment operator. C++ sucks on this one :(
-    TEXT_BUFFER_ADDR[index].Color = c.Color;
+    return reinterpret_cast<volatile ColoredChar *>(reinterpret_cast<volatile void *>(0xb8000));
+}
+
+void OS::TextDisplay::SetChar(const size_t index, const ColoredChar c)
+{
+    GetVideoBuffer()[index].Char = c.Char; // TODO: Hack to not define vol-nonvol assignment operator. C++ sucks on this one :(
+    GetVideoBuffer()[index].Color = c.Color;
 }

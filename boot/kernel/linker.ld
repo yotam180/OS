@@ -3,8 +3,7 @@ SECTIONS
     . = 1M;
     .text 0x9000 : ALIGN(1K)
     {
-        bin/KernelEntry.o(.text)
-        bin/Kernel.o(.text)
+        bin/*(.text)
     }
 
     .rodata BLOCK(1K) : ALIGN(1K)
