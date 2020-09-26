@@ -17,8 +17,9 @@ $(BIN_DIR)/KernelEntry.o: KernelEntry.S
 	mkdir -p $(BIN_DIR)
 	nasm $< -f elf -o $@
 
-$(BIN_DIR)/%.o: %.cpp
-	echo $@
+.SECONDEXPANSION:
+$(BIN_DIR)/%.o: %.cpp $$(shell grep -oP "(?<=include \")([A-Za-z0-9_\.\/]+)(?=\")" `echo $$@ | sed s/bin\\\///g | sed s/\.o/\.cpp/g` | tr '\n' ' ')
+	echo deps: $<
 	mkdir -p $(shell dirname $@)
 	$(CC) -c $(CFLAGS) $< -o $@
 
