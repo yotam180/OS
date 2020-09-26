@@ -2,7 +2,7 @@
 
 #include "Ktype.hpp"
 
-byte IoPortByteIn(const uint16_t port);
-void IoPortByteOut(const uint16_t port, const byte value);
-uint16_t IoPortWordIn(const uint16_t port);
-void IoPortWordOut(const uint16_t port, const uint16_t value);
+BYTE IoPortByteIn(const UINT16 port);
+void IoPortByteOut(const UINT16 port, const BYTE value);
+UINT16 IoPortWordIn(const UINT16 port);
+void IoPortWordOut(const UINT16 port, const UINT16 value);

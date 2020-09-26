@@ -1,6 +1,6 @@
 #include "arch/io/Io.hpp"
 
-byte IoPortByteIn(const uint16_t port)
+BYTE IoPortByteIn(const UINT16 port)
 {
     unsigned char result;
     __asm__(
@@ -11,15 +11,15 @@ byte IoPortByteIn(const uint16_t port)
     return result;
 }
 
-void IoPortByteOut(const uint16_t port, const byte value)
+void IoPortByteOut(const UINT16 port, const BYTE value)
 {
     __asm__(
         "out %%al, %%dx" ::"a"(value), "d"(port));
 }
 
-uint16_t IoPortWordIn(const uint16_t port)
+UINT16 IoPortWordIn(const UINT16 port)
 {
-    uint16_t result;
+    UINT16 result;
     __asm__(
         "in %%dx, %%ax"
         : "=a"(result)
@@ -27,7 +27,7 @@ uint16_t IoPortWordIn(const uint16_t port)
     return result;
 }
 
-void IoPortWordOut(const uint16_t port, const uint16_t value)
+void IoPortWordOut(const UINT16 port, const UINT16 value)
 {
     __asm__(
         "out %%ax, %%dx" ::"a"(value), "d"(port));

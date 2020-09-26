@@ -1,7 +1,13 @@
 #pragma once
 
-typedef unsigned char byte;
-typedef short int16_t;
-typedef unsigned short uint16_t;
+typedef unsigned char BYTE;
+typedef signed char INT8;
+typedef unsigned char UINT8;
+typedef signed short INT16;
+typedef unsigned short UINT16;
+typedef signed int INT32;
+typedef unsigned int UINT32;
 
-using size_t = unsigned int; // TODO: Hack. Figure dynamically if 32 or 64 bit
+typedef void *PVOID;
+
+using SIZE_T = unsigned int; // TODO: Hack. Figure if 32 or 64 bit
