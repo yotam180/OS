@@ -9,12 +9,6 @@ Next, we should really port the kernel to work with the multiboot standard, so i
 by a pre-made bootloader such as GRUB.
 */
 
-typedef struct
-{
-    char Char;
-    byte Color;
-} VCHAR;
-
 extern "C" void KeStart()
 {
     volatile VCHAR *videoMemory = reinterpret_cast<VCHAR *>(0xb8000);

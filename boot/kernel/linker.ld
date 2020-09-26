@@ -3,8 +3,8 @@ SECTIONS
     . = 1M;
     .text BLOCK(4K) : ALIGN(4K)
     {
-        KernelEntry.o(.text)
-        Kernel.o(.text)
+        bin/KernelEntry.o(.text)
+        bin/Kernel.o(.text)
     }
 
     .rodata BLOCK(4K) : ALIGN(4K)

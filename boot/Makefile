@@ -1,7 +1,8 @@
 all:
 	nasm sector0/sector0.S -o sector0.bin
-	nasm post_bios/boot.S -o post_bios.bin
-	cat sector0.bin post_bios.bin > disk.bin
+	make -C kernel
+	cat sector0.bin kernel/bin/Kernel.bin > disk.bin
 
 clean:
-	rm *.bin
+	make -C kernel clean
+	rm -f *.bin
