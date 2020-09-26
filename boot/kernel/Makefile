@@ -9,7 +9,7 @@ FILES=Kernel.cpp
 all: Kernel.bin
 
 Kernel.bin: KernelEntry.o Kernel.o
-	ld -s -n --gc-sections -m elf_i386 -o $@ $^ --oformat binary
+	ld -T linker.ld -m elf_i386 -o $@ $^ --oformat binary
 
 KernelEntry.o: KernelEntry.S
 	nasm $< -f elf -o $@
