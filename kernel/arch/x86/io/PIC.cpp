@@ -25,3 +25,13 @@ void Io::RemapPIC(const UINT16 masterOffset, const UINT16 slaveOffset)
     PortByteOut(MASTER_DATA, 0);
     PortByteOut(SLAVE_DATA, 0);
 }
+
+void Io::ClearMasterPIC()
+{
+    PortByteOut(MASTER_COMMAND, 0x20);
+}
+
+void Io::ClearSlavePIC()
+{
+    PortByteOut(SLAVE_COMMAND, 0x20);
+}

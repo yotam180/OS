@@ -18,7 +18,7 @@ extern "C" void KeStart()
 
     OS::TextDisplay::GetDefault().Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!");
 
-    __asm__ __volatile__("int $2");
+    __asm__ __volatile__("int $32");
 
     while (1)
         ;

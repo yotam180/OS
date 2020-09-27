@@ -1,6 +1,7 @@
 #include "arch/internal/IDT.hpp"
 
 #include "TextMode/TextMode.hpp"
+#include "arch/io/PIC.hpp"
 
 Arch::IDT_ENTRY Arch::_IDT[IDT_SIZE];
 Arch::IDTR Arch::_IDTR;
@@ -42,6 +43,12 @@ extern "C" void Arch::KeIrqHandler(const Arch::INTERRUPT_STATE *const state)
     OS::TextDisplay::GetDefault().Print("A hardware interrupt handler was called ");
     OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
     OS::TextDisplay::GetDefault().Print("\n");
+
+    if (state->InterruptNumber >= 8)
+    {
+        Io::ClearSlavePIC();
+    }
+    Io::ClearMasterPIC();
 }
 
 extern "C" void KeIsr0();
