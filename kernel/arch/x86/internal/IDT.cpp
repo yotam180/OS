@@ -4,6 +4,7 @@
 #include "arch/io/PIC.hpp"
 
 Arch::IDT_ENTRY Arch::_IDT[IDT_SIZE];
+Arch::PINTERRUPT_HANDLER Arch::_InterruptHandlers[IDT_SIZE] = {0};
 Arch::IDTR Arch::_IDTR;
 
 void Arch::SetIDTGate(const SIZE_T index, const PVOID gate)
@@ -29,12 +30,22 @@ void Arch::SetIDT()
     __asm__ __volatile__("lidt (%0)" ::"r"(&_IDTR));
 }
 
+void Arch::RegisterInterruptHandler(const SIZE_T interruptNumber, const PINTERRUPT_HANDLER handler)
+{
+    _InterruptHandlers[interruptNumber] = handler; // TODO: Bounds checking?
+}
+
 extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE *const state)
 {
     UNUSED(state);
     OS::TextDisplay::GetDefault().Print("An interrupt handler was called ");
     OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
     OS::TextDisplay::GetDefault().Print("\n");
+
+    if (_InterruptHandlers[state->InterruptNumber])
+    {
+        _InterruptHandlers[state->InterruptNumber](state);
+    }
 }
 
 extern "C" void Arch::KeIrqHandler(const Arch::INTERRUPT_STATE *const state)
@@ -43,6 +54,11 @@ extern "C" void Arch::KeIrqHandler(const Arch::INTERRUPT_STATE *const state)
     OS::TextDisplay::GetDefault().Print("A hardware interrupt handler was called ");
     OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
     OS::TextDisplay::GetDefault().Print("\n");
+
+    if (_InterruptHandlers[state->InterruptNumber + Io::DEFAULT_MASTER_INT_START])
+    {
+        _InterruptHandlers[state->InterruptNumber + Io::DEFAULT_MASTER_INT_START](state);
+    }
 
     if (state->InterruptNumber >= 8)
     {

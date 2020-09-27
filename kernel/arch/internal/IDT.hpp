@@ -16,13 +16,7 @@ typedef struct
     UINT16 OffsetLow;
     UINT16 Selector;
     UINT8 Reserved;
-
-    // UINT8 Present : 1;
-    // UINT8 DPL : 2;
-    // UINT8 StorageSegment : 1;
-    // UINT8 Type : 4;
     UINT8 Flags;
-
     UINT16 OffsetHigh;
 } __attribute__((packed)) IDT_ENTRY, *PIDT_ENTRY;
 
@@ -47,9 +41,14 @@ typedef struct
     UINT32 InterruptNumber;
 } __attribute__((packed)) INTERRUPT_STATE, *PINTERRUPT_STATE;
 
+using PINTERRUPT_HANDLER = void (*)(const INTERRUPT_STATE *const state);
+
 constexpr SIZE_T IDT_SIZE = 256;
 extern IDT_ENTRY _IDT[IDT_SIZE];
+extern PINTERRUPT_HANDLER _InterruptHandlers[IDT_SIZE];
 extern IDTR _IDTR;
+
+void RegisterInterruptHandler(const SIZE_T interruptNumber, const PINTERRUPT_HANDLER handler);
 
 void SetIDTGate(const SIZE_T index, const PVOID gate);
 void SetIDT();
