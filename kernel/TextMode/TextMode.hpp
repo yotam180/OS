@@ -20,8 +20,10 @@ public:
     {
     }
 
-    inline void Print(const char *const text);
-    inline void PrintChar(const COLORED_CHAR c);
+    void Print(const char *const text);
+    void PrintChar(const COLORED_CHAR c);
+
+    inline void PrintHex(const UINT32 number);
     static TextDisplay &GetDefault();
 
 private:
@@ -50,30 +52,19 @@ void OS::TextDisplay::SetChar(const SIZE_T index, const COLORED_CHAR c)
     GetVideoBuffer()[index].Color = c.Color;
 }
 
-void OS::TextDisplay::Print(const char *const text)
+void OS::TextDisplay::PrintHex(const UINT32 number)
 {
-    for (const char *ptr = text; *ptr != '\0'; ++ptr)
-    {
-        PrintChar({*ptr, 0x02}); // Black on White
-    }
-}
-
-void OS::TextDisplay::PrintChar(const COLORED_CHAR c)
-{
-    if (c.Char == '\n')
-    {
-        PrintNewLine();
-        return;
-    }
-
-    if (_Cursor == _Width - 1)
-    {
-        PrintNewLine();
-    }
-
-    GetVideoBuffer()[(_Height - 1) * _Width + _Cursor].Char = c.Char; // Note: Ugly
-    GetVideoBuffer()[(_Height - 1) * _Width + _Cursor].Color = c.Color;
-    _Cursor++;
+    static const char *const digits = "0123456789abcdef";
+    char buffer[] = "00000000";
+    buffer[0] = digits[(number >> 28) & 0xf];
+    buffer[1] = digits[(number >> 24) & 0xf];
+    buffer[2] = digits[(number >> 20) & 0xf];
+    buffer[3] = digits[(number >> 16) & 0xf];
+    buffer[4] = digits[(number >> 12) & 0xf];
+    buffer[5] = digits[(number >> 8) & 0xf];
+    buffer[6] = digits[(number >> 4) & 0xf];
+    buffer[7] = digits[number & 0xf];
+    Print(buffer);
 }
 
 void OS::TextDisplay::PrintNewLine()

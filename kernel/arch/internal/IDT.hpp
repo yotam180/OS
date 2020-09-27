@@ -15,12 +15,13 @@ typedef struct
 {
     UINT16 OffsetLow;
     UINT16 Selector;
-    UINT8 Reserved; // Set to 0
+    UINT8 Reserved;
 
-    UINT8 Present : 1;
-    UINT8 DPL : 2;
-    UINT8 StorageSegment : 1;
-    UINT8 Type : 4;
+    // UINT8 Present : 1;
+    // UINT8 DPL : 2;
+    // UINT8 StorageSegment : 1;
+    // UINT8 Type : 4;
+    UINT8 Flags;
 
     UINT16 OffsetHigh;
 } __attribute__((packed)) IDT_ENTRY, *PIDT_ENTRY;
@@ -29,7 +30,7 @@ typedef struct
 {
     UINT16 Size;
     PVOID Address;
-} IDTR, *PIDTR;
+} __attribute__((packed)) IDTR, *PIDTR;
 
 constexpr SIZE_T IDT_SIZE = 256;
 
