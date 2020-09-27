@@ -1,6 +1,7 @@
 bits 32
 
 extern KeIsrHandler
+extern KeIrqHandler
 
 ; This should handle interrupts
 KeIsrPreHandle:
@@ -17,6 +18,38 @@ KeIsrPreHandle:
 
     push    esp             ; Pushing a "pointer" to our struct
     call    KeIsrHandler
+    add     esp, 4
+
+    pop     eax
+    mov     ds, eax
+    mov     es, eax
+    mov     fs, eax
+    mov     gs, eax
+    popad
+    popf
+    
+    add     esp, 4          ; Clean up pushed interrupt number, TODO: This might be 8
+    sti
+    iret
+
+; This should handle hardware IRQs
+; The reason we don't call KeIsrHandler and differentiate IRQs using a plain `if` statement
+; if speed. We better waste those few more bytes of code to make this code run faster and not
+; branch. Branch prediction will do more harm than good in this kind of function.
+KeIrqPreHandle:
+    cli
+    pushf
+    pushad                  ; EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI (reverse order, EDI is first in the struct)
+    mov     ax, ds
+    push    eax
+    mov     ax, 10h         ; Kernel data segment
+    mov     ds, eax
+    mov     es, eax
+    mov     fs, eax
+    mov     gs, eax
+
+    push    esp             ; Pushing a "pointer" to our struct
+    call    KeIrqHandler
     add     esp, 4
 
     pop     eax
@@ -159,3 +192,71 @@ global KeIsr31
 KeIsr31:
     push    dword 31
     jmp     KeIsrPreHandle
+
+
+global KeIrq0
+KeIrq0:
+    push    dword 0
+    jmp     KeIrqPreHandle
+global KeIrq1
+KeIrq1:
+    push    dword 1
+    jmp     KeIrqPreHandle
+global KeIrq2
+KeIrq2:
+    push    dword 2
+    jmp     KeIrqPreHandle
+global KeIrq3
+KeIrq3:
+    push    dword 3
+    jmp     KeIrqPreHandle
+global KeIrq4
+KeIrq4:
+    push    dword 4
+    jmp     KeIrqPreHandle
+global KeIrq5
+KeIrq5:
+    push    dword 5
+    jmp     KeIrqPreHandle
+global KeIrq6
+KeIrq6:
+    push    dword 6
+    jmp     KeIrqPreHandle
+global KeIrq7
+KeIrq7:
+    push    dword 7
+    jmp     KeIrqPreHandle
+global KeIrq8
+KeIrq8:
+    push    dword 8
+    jmp     KeIrqPreHandle
+global KeIrq9
+KeIrq9:
+    push    dword 9
+    jmp     KeIrqPreHandle
+global KeIrq10
+KeIrq10:
+    push    dword 10
+    jmp     KeIrqPreHandle
+global KeIrq11
+KeIrq11:
+    push    dword 11
+    jmp     KeIrqPreHandle
+global KeIrq12
+KeIrq12:
+    push    dword 12
+    jmp     KeIrqPreHandle
+global KeIrq13
+KeIrq13:
+    push    dword 13
+    jmp     KeIrqPreHandle
+global KeIrq14
+KeIrq14:
+    push    dword 14
+    jmp     KeIrqPreHandle
+global KeIrq15
+KeIrq15:
+    push    dword 15
+    jmp     KeIrqPreHandle
+
+    

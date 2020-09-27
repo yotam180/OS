@@ -36,6 +36,14 @@ extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE *const state)
     OS::TextDisplay::GetDefault().Print("\n");
 }
 
+extern "C" void Arch::KeIrqHandler(const Arch::INTERRUPT_STATE *const state)
+{
+    UNUSED(state);
+    OS::TextDisplay::GetDefault().Print("A hardware interrupt handler was called ");
+    OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
+    OS::TextDisplay::GetDefault().Print("\n");
+}
+
 extern "C" void KeIsr0();
 extern "C" void KeIsr1();
 extern "C" void KeIsr2();
@@ -68,6 +76,23 @@ extern "C" void KeIsr28();
 extern "C" void KeIsr29();
 extern "C" void KeIsr30();
 extern "C" void KeIsr31();
+
+extern "C" void KeIrq0();
+extern "C" void KeIrq1();
+extern "C" void KeIrq2();
+extern "C" void KeIrq3();
+extern "C" void KeIrq4();
+extern "C" void KeIrq5();
+extern "C" void KeIrq6();
+extern "C" void KeIrq7();
+extern "C" void KeIrq8();
+extern "C" void KeIrq9();
+extern "C" void KeIrq10();
+extern "C" void KeIrq11();
+extern "C" void KeIrq12();
+extern "C" void KeIrq13();
+extern "C" void KeIrq14();
+extern "C" void KeIrq15();
 
 void Arch::PopulateIDT()
 {
@@ -106,4 +131,21 @@ void Arch::PopulateIDT()
     SetIDTGate(29, reinterpret_cast<PVOID>(KeIsr29));
     SetIDTGate(30, reinterpret_cast<PVOID>(KeIsr30));
     SetIDTGate(31, reinterpret_cast<PVOID>(KeIsr31));
+
+    SetIDTGate(32, reinterpret_cast<PVOID>(KeIrq0));
+    SetIDTGate(33, reinterpret_cast<PVOID>(KeIrq1));
+    SetIDTGate(34, reinterpret_cast<PVOID>(KeIrq2));
+    SetIDTGate(35, reinterpret_cast<PVOID>(KeIrq3));
+    SetIDTGate(36, reinterpret_cast<PVOID>(KeIrq4));
+    SetIDTGate(37, reinterpret_cast<PVOID>(KeIrq5));
+    SetIDTGate(38, reinterpret_cast<PVOID>(KeIrq6));
+    SetIDTGate(39, reinterpret_cast<PVOID>(KeIrq7));
+    SetIDTGate(40, reinterpret_cast<PVOID>(KeIrq8));
+    SetIDTGate(41, reinterpret_cast<PVOID>(KeIrq9));
+    SetIDTGate(42, reinterpret_cast<PVOID>(KeIrq10));
+    SetIDTGate(43, reinterpret_cast<PVOID>(KeIrq11));
+    SetIDTGate(44, reinterpret_cast<PVOID>(KeIrq12));
+    SetIDTGate(45, reinterpret_cast<PVOID>(KeIrq13));
+    SetIDTGate(46, reinterpret_cast<PVOID>(KeIrq14));
+    SetIDTGate(47, reinterpret_cast<PVOID>(KeIrq15));
 }

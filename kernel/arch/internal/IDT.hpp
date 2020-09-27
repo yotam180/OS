@@ -56,5 +56,6 @@ void SetIDT();
 void PopulateIDT();
 
 extern "C" void KeIsrHandler(const INTERRUPT_STATE *const state);
+extern "C" void KeIrqHandler(const INTERRUPT_STATE *const state);
 
 } // namespace Arch
