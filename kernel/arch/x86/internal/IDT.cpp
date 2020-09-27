@@ -31,7 +31,9 @@ void Arch::SetIDT()
 extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE *const state)
 {
     UNUSED(state);
-    OS::TextDisplay::GetDefault().Print("An interrupt handler was called\n");
+    OS::TextDisplay::GetDefault().Print("An interrupt handler was called ");
+    OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
+    OS::TextDisplay::GetDefault().Print("\n");
 }
 
 extern "C" void KeIsr0();
