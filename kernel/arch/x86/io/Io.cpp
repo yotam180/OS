@@ -3,7 +3,7 @@
 BYTE IoPortByteIn(const UINT16 port)
 {
     unsigned char result;
-    __asm__(
+    __asm__ __volatile__(
         "in %%dx, %%al"
         : "=a"(result)
         : "d"(port));
@@ -13,14 +13,14 @@ BYTE IoPortByteIn(const UINT16 port)
 
 void IoPortByteOut(const UINT16 port, const BYTE value)
 {
-    __asm__(
+    __asm__ __volatile__(
         "out %%al, %%dx" ::"a"(value), "d"(port));
 }
 
 UINT16 IoPortWordIn(const UINT16 port)
 {
     UINT16 result;
-    __asm__(
+    __asm__ __volatile__(
         "in %%dx, %%ax"
         : "=a"(result)
         : "d"(port));
@@ -29,6 +29,6 @@ UINT16 IoPortWordIn(const UINT16 port)
 
 void IoPortWordOut(const UINT16 port, const UINT16 value)
 {
-    __asm__(
+    __asm__ __volatile__(
         "out %%ax, %%dx" ::"a"(value), "d"(port));
 }
