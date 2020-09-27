@@ -8,14 +8,16 @@ KeIsrPreHandle:
     pushf
     pushad                  ; EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI (reverse order, EDI is first in the struct)
     mov     ax, ds
-    push    ax
+    push    eax
     mov     ax, 10h         ; Kernel data segment
     mov     ds, eax
     mov     es, eax
     mov     fs, eax
     mov     gs, eax
 
+    push    esp             ; Pushing a "pointer" to our struct
     call    KeIsrHandler
+    add     esp, 4
 
     pop     eax
     mov     ds, eax

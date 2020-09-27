@@ -32,13 +32,9 @@ typedef struct
     PVOID Address;
 } __attribute__((packed)) IDTR, *PIDTR;
 
-constexpr SIZE_T IDT_SIZE = 256;
-
-extern IDT_ENTRY _IDT[IDT_SIZE];
-extern IDTR _IDTR;
-
 typedef struct
 {
+    UINT32 DS;
     UINT32 Edi;
     UINT32 Esi;
     UINT32 Ebp;
@@ -47,14 +43,18 @@ typedef struct
     UINT32 Edx;
     UINT32 Ecx;
     UINT32 Eax;
+    UINT32 Eflags;
     UINT32 InterruptNumber;
-} INTERRUPT_STATE, *PINTERRUPT_STATE;
+} __attribute__((packed)) INTERRUPT_STATE, *PINTERRUPT_STATE;
+
+constexpr SIZE_T IDT_SIZE = 256;
+extern IDT_ENTRY _IDT[IDT_SIZE];
+extern IDTR _IDTR;
 
 void SetIDTGate(const SIZE_T index, const PVOID gate);
 void SetIDT();
 void PopulateIDT();
 
-// This function is called from the assembly code
-extern "C" void KeIsrHandler(const INTERRUPT_STATE state);
+extern "C" void KeIsrHandler(const INTERRUPT_STATE *const state);
 
 } // namespace Arch

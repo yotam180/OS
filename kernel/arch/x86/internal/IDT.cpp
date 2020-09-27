@@ -28,7 +28,7 @@ void Arch::SetIDT()
     __asm__ __volatile__("lidt (%0)" ::"r"(&_IDTR));
 }
 
-extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE state)
+extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE *const state)
 {
     UNUSED(state);
     OS::TextDisplay::GetDefault().Print("An interrupt handler was called\n");
