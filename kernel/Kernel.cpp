@@ -14,7 +14,7 @@ by a pre-made bootloader such as GRUB.
 
 extern "C" void KeStart()
 {
-    Arch::Io::Keyboard::Setup(); // TODO: Create a higher level keyboard abstraction outside Arch namespace
+    Arch::Io::Keyboard::Setup(nullptr); // TODO: Create a higher level keyboard abstraction outside Arch namespace
     Arch::Setup();
 
     while (1)
