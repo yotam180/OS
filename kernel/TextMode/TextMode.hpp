@@ -24,6 +24,7 @@ public:
 
     void Print(const char *const text);
     void PrintChar(const COLORED_CHAR c);
+    inline void PrintChar(const char c);
 
     inline void SetCusror(const UINT16 x, const UINT16 y);
 
@@ -101,4 +102,9 @@ void OS::TextDisplay::PrintNewLine()
     {
         GetVideoBuffer()[(_Height - 1) * _Width + j].Char = ' ';
     }
+}
+
+void OS::TextDisplay::PrintChar(const char c)
+{
+    PrintChar({c, 0x2}); // TODO: Export default color to const somewhere
 }

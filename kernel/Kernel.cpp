@@ -1,7 +1,7 @@
+#include "Io/Keyboard.hpp"
 #include "Ktype.hpp"
 #include "TextMode/TextMode.hpp"
 #include "arch/Arch.hpp"
-#include "arch/io/Keyboard.hpp"
 
 /*
 TODO: This kernel is currently embedded into the bootloader. This is not very good, but it
@@ -12,11 +12,18 @@ Next, we should really port the kernel to work with the multiboot standard, so i
 by a pre-made bootloader such as GRUB.
 */
 
+static void KeInput(char character);
+
 extern "C" void KeStart()
 {
-    Arch::Io::Keyboard::Setup(nullptr); // TODO: Create a higher level keyboard abstraction outside Arch namespace
     Arch::Setup();
+    Io::Keyboard::GetDefault().SetHandler(KeInput);
 
     while (1)
         ;
+}
+
+static void KeInput(char character)
+{
+    OS::TextDisplay::GetDefault().PrintChar(character);
 }
