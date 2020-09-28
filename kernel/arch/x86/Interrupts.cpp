@@ -31,11 +31,6 @@ void Arch::RegisterInterruptHandler(const SIZE_T interruptNumber, const PINTERRU
 
 extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE *const state)
 {
-    UNUSED(state);
-    OS::TextDisplay::GetDefault().Print("An interrupt handler was called ");
-    OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
-    OS::TextDisplay::GetDefault().Print("\n");
-
     if (_InterruptHandlers[state->InterruptNumber])
     {
         _InterruptHandlers[state->InterruptNumber](state);
@@ -44,11 +39,6 @@ extern "C" void Arch::KeIsrHandler(const Arch::INTERRUPT_STATE *const state)
 
 extern "C" void Arch::KeIrqHandler(const Arch::INTERRUPT_STATE *const state)
 {
-    UNUSED(state);
-    OS::TextDisplay::GetDefault().Print("A hardware interrupt handler was called ");
-    OS::TextDisplay::GetDefault().PrintHex(state->InterruptNumber);
-    OS::TextDisplay::GetDefault().Print("\n");
-
     if (_InterruptHandlers[state->InterruptNumber + Io::DEFAULT_MASTER_INT_START])
     {
         _InterruptHandlers[state->InterruptNumber + Io::DEFAULT_MASTER_INT_START](state);

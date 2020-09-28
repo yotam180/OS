@@ -1,6 +1,7 @@
 #include "Ktype.hpp"
 #include "TextMode/TextMode.hpp"
 #include "arch/Arch.hpp"
+#include "arch/io/Keyboard.hpp"
 
 /*
 TODO: This kernel is currently embedded into the bootloader. This is not very good, but it
@@ -13,6 +14,7 @@ by a pre-made bootloader such as GRUB.
 
 extern "C" void KeStart()
 {
+    Arch::Io::Keyboard::Setup(); // TODO: Create a higher level keyboard abstraction outside Arch namespace
     Arch::Setup();
 
     while (1)

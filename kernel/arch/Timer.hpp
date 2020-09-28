@@ -3,5 +3,5 @@
 
 namespace Arch::Timer
 {
-void Init(const UINT16 frequency);
+void Setup(const UINT16 frequency);
 } // namespace Arch::Timer

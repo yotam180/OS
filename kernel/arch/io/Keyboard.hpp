@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Arch
+namespace Arch::Io::Keyboard
 {
 void Setup();
 }

@@ -14,7 +14,7 @@ namespace Arch::Timer
 static void OnTick(const INTERRUPT_STATE *const state);
 } // namespace Arch::Timer
 
-void Arch::Timer::Init(const UINT16 frequency)
+void Arch::Timer::Setup(const UINT16 frequency)
 {
     Arch::RegisterInterruptHandler(TIMER_INTERRUPT, &OnTick);
 
@@ -28,5 +28,4 @@ void Arch::Timer::Init(const UINT16 frequency)
 static void Arch::Timer::OnTick(const INTERRUPT_STATE *const state)
 {
     UNUSED(state);
-    OS::TextDisplay::GetDefault().Print("Timer tick");
 }
