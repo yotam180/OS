@@ -1,7 +1,7 @@
 #include "arch/Timer.hpp"
 
 #include "TextMode/TextMode.hpp"
-#include "arch/internal/IDT.hpp"
+#include "arch/Interrupts.hpp"
 #include "arch/io/Ports.hpp"
 
 static constexpr UINT16 TIMER_INTERRUPT = 32; // IRQ0

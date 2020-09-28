@@ -1,7 +1,7 @@
 #include "arch/io/Ports.hpp"
 
 // TODO: Find a way to inline these functions for performance enhancement
-BYTE Io::PortByteIn(const UINT16 port)
+BYTE Arch::Io::PortByteIn(const UINT16 port)
 {
     unsigned char result;
     __asm__ __volatile__(
@@ -12,13 +12,13 @@ BYTE Io::PortByteIn(const UINT16 port)
     return result;
 }
 
-void Io::PortByteOut(const UINT16 port, const BYTE value)
+void Arch::Io::PortByteOut(const UINT16 port, const BYTE value)
 {
     __asm__ __volatile__(
         "out %%al, %%dx" ::"a"(value), "d"(port));
 }
 
-UINT16 Io::PortWordIn(const UINT16 port)
+UINT16 Arch::Io::PortWordIn(const UINT16 port)
 {
     UINT16 result;
     __asm__ __volatile__(
@@ -28,7 +28,7 @@ UINT16 Io::PortWordIn(const UINT16 port)
     return result;
 }
 
-void Io::PortWordOut(const UINT16 port, const UINT16 value)
+void Arch::Io::PortWordOut(const UINT16 port, const UINT16 value)
 {
     __asm__ __volatile__(
         "out %%ax, %%dx" ::"a"(value), "d"(port));

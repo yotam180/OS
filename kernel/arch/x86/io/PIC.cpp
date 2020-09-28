@@ -2,15 +2,15 @@
 
 #include "arch/io/Ports.hpp"
 
-namespace Io
+namespace Arch::Io
 {
 static constexpr UINT16 MASTER_COMMAND = 0x20;
 static constexpr UINT16 MASTER_DATA = 0x21;
 static constexpr UINT16 SLAVE_COMMAND = 0xa0;
 static constexpr UINT16 SLAVE_DATA = 0xa1;
-} // namespace Io
+} // namespace Arch::Io
 
-void Io::RemapPIC(const UINT16 masterOffset, const UINT16 slaveOffset)
+void Arch::Io::RemapPIC(const UINT16 masterOffset, const UINT16 slaveOffset)
 {
     PortByteOut(MASTER_COMMAND, 0x11); // TODO: What is 0x11?
     PortByteOut(SLAVE_COMMAND, 0x11);
@@ -26,12 +26,12 @@ void Io::RemapPIC(const UINT16 masterOffset, const UINT16 slaveOffset)
     PortByteOut(SLAVE_DATA, 0);
 }
 
-void Io::ClearMasterPIC()
+void Arch::Io::ClearMasterPIC()
 {
     PortByteOut(MASTER_COMMAND, 0x20);
 }
 
-void Io::ClearSlavePIC()
+void Arch::Io::ClearSlavePIC()
 {
     PortByteOut(SLAVE_COMMAND, 0x20);
 }

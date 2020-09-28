@@ -51,10 +51,10 @@ void OS::TextDisplay::SetCusror(const UINT16 x, const UINT16 y)
     constexpr static UINT8 CURSOR_HIGH_BYTE = 14, CURSOR_LOW_BYTE = 15;
 
     const UINT16HL cursor(static_cast<UINT16>(y * _Width + x));
-    Io::PortByteOut(SCREEN_CONTROL, CURSOR_HIGH_BYTE);
-    Io::PortByteOut(SCREEN_DATA, cursor.U8.High);
-    Io::PortByteOut(SCREEN_CONTROL, CURSOR_LOW_BYTE);
-    Io::PortByteOut(SCREEN_DATA, cursor.U8.Low);
+    Arch::Io::PortByteOut(SCREEN_CONTROL, CURSOR_HIGH_BYTE);
+    Arch::Io::PortByteOut(SCREEN_DATA, cursor.U8.High);
+    Arch::Io::PortByteOut(SCREEN_CONTROL, CURSOR_LOW_BYTE);
+    Arch::Io::PortByteOut(SCREEN_DATA, cursor.U8.Low);
 }
 
 OS::PVCOLORED_CHAR OS::TextDisplay::GetVideoBuffer() const

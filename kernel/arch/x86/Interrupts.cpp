@@ -1,4 +1,4 @@
-#include "arch/internal/IDT.hpp"
+#include "arch/Interrupts.hpp"
 
 #include "TextMode/TextMode.hpp"
 #include "arch/io/PIC.hpp"
