@@ -16,19 +16,16 @@ by a pre-made bootloader such as GRUB.
 
 extern "C" void KeStart()
 {
-    // Arch::PopulateIDT(); // TODO: Unify to one function Arch::init or something
-    // Arch::SetIDT();
-    // Arch::Timer::Init();
+    Arch::PopulateIDT(); // TODO: Unify to one function Arch::init or something
+    Arch::SetIDT();
+    Io::RemapPIC(Io::DEFAULT_MASTER_INT_START, Io::DEFAULT_SLAVE_INT_START);
+    Arch::Timer::Init();
 
-    // Io::PortByteOut(0x3d4, 14);
-    // Io::PortByteOut(0x3d5, 0);
-    // Io::PortByteOut(0x3d4, 15);
-    // Io::PortByteOut(0x3d5, 5);
+    // OS::TextDisplay::GetDefault().SetCusror(5, 3);
+    // OS::TextDisplay::GetDefault().Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!\n");
 
-    OS::TextDisplay::GetDefault().SetCusror(5, 3);
-    OS::TextDisplay::GetDefault().Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!\n");
-
-    // __asm__ __volatile__("int $32");
+    __asm__ __volatile__("sti");
+    __asm__ __volatile__("int $32");
 
     while (1)
         ;

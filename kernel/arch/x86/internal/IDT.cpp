@@ -146,8 +146,6 @@ void Arch::PopulateIDT()
     SetIDTGate(30, reinterpret_cast<PVOID>(KeIsr30));
     SetIDTGate(31, reinterpret_cast<PVOID>(KeIsr31));
 
-    // Io::RemapPIC(Io::DEFAULT_MASTER_INT_START, Io::DEFAULT_SLAVE_INT_START);
-
     SetIDTGate(32, reinterpret_cast<PVOID>(KeIrq0));
     SetIDTGate(33, reinterpret_cast<PVOID>(KeIrq1));
     SetIDTGate(34, reinterpret_cast<PVOID>(KeIrq2));
