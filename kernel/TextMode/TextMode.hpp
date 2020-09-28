@@ -1,5 +1,7 @@
 #pragma once
-#include "../Ktype.hpp"
+
+#include "Ktype.hpp"
+#include "arch/io/Ports.hpp"
 
 namespace OS
 {
@@ -23,6 +25,8 @@ public:
     void Print(const char *const text);
     void PrintChar(const COLORED_CHAR c);
 
+    inline void SetCusror(const UINT16 x, const UINT16 y);
+
     inline void PrintHex(const UINT32 number);
     static TextDisplay &GetDefault();
 
@@ -41,6 +45,18 @@ private:
 } // namespace OS
 
 // Inlines
+void OS::TextDisplay::SetCusror(const UINT16 x, const UINT16 y)
+{
+    constexpr static UINT16 SCREEN_CONTROL = 0x3d4, SCREEN_DATA = 0x3d5;
+    constexpr static UINT8 CURSOR_HIGH_BYTE = 14, CURSOR_LOW_BYTE = 15;
+
+    const UINT16HL cursor(static_cast<UINT16>(y * _Width + x));
+    Io::PortByteOut(SCREEN_CONTROL, CURSOR_HIGH_BYTE);
+    Io::PortByteOut(SCREEN_DATA, cursor.U8.High);
+    Io::PortByteOut(SCREEN_CONTROL, CURSOR_LOW_BYTE);
+    Io::PortByteOut(SCREEN_DATA, cursor.U8.Low);
+}
+
 OS::PVCOLORED_CHAR OS::TextDisplay::GetVideoBuffer() const
 {
     return reinterpret_cast<PVCOLORED_CHAR>(reinterpret_cast<volatile void *>(0xb8000));

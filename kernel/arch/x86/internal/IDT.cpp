@@ -9,15 +9,9 @@ Arch::IDTR Arch::_IDTR;
 
 void Arch::SetIDTGate(const SIZE_T index, const PVOID gate)
 {
-    OS::TextDisplay::GetDefault().PrintHex(reinterpret_cast<UINT32>(gate));
-    OS::TextDisplay::GetDefault().Print("\n");
     _IDT[index].OffsetLow = reinterpret_cast<SIZE_T>(gate) & 0xffff; // TODO: Macros for these once we need it
     _IDT[index].Selector = 0x8;                                      // Kernel code segment
     _IDT[index].Reserved = 0;
-    // _IDT[index].Present = 1;
-    // _IDT[index].DPL = 3; // TODO: This is an unsafe setting... I think... We might want to set it to 0
-    // _IDT[index].StorageSegment = 0;
-    // _IDT[index].Type = 0xe; // TODO: What exactly does this mean?
     _IDT[index].Flags = 0x8e; // Why?
     _IDT[index].OffsetHigh = (reinterpret_cast<SIZE_T>(gate) >> 16) & 0xffff;
 }
@@ -119,9 +113,6 @@ extern "C" void KeIrq15();
 
 void Arch::PopulateIDT()
 {
-    // REM OS::TextDisplay::GetDefault().Print("PopulateIDT called\n");
-    // REM OS::TextDisplay::GetDefault().PrintHex(reinterpret_cast<UINT32>(KeIsr0));
-    // REM OS::TextDisplay::GetDefault().Print("\n");
     SetIDTGate(0, reinterpret_cast<PVOID>(KeIsr0));
     SetIDTGate(1, reinterpret_cast<PVOID>(KeIsr1));
     SetIDTGate(2, reinterpret_cast<PVOID>(KeIsr2));
@@ -154,6 +145,8 @@ void Arch::PopulateIDT()
     SetIDTGate(29, reinterpret_cast<PVOID>(KeIsr29));
     SetIDTGate(30, reinterpret_cast<PVOID>(KeIsr30));
     SetIDTGate(31, reinterpret_cast<PVOID>(KeIsr31));
+
+    // Io::RemapPIC(Io::DEFAULT_MASTER_INT_START, Io::DEFAULT_SLAVE_INT_START);
 
     SetIDTGate(32, reinterpret_cast<PVOID>(KeIrq0));
     SetIDTGate(33, reinterpret_cast<PVOID>(KeIrq1));

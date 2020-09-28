@@ -3,6 +3,7 @@
 #include "arch/Timer.hpp"
 #include "arch/internal/IDT.hpp"
 #include "arch/io/PIC.hpp"
+#include "arch/io/Ports.hpp"
 
 /*
 TODO: This kernel is currently embedded into the bootloader. This is not very good, but it
@@ -15,12 +16,17 @@ by a pre-made bootloader such as GRUB.
 
 extern "C" void KeStart()
 {
-    Arch::PopulateIDT(); // TODO: Unify to one function Arch::init or something
-    Arch::SetIDT();
-    Io::RemapPIC(Io::DEFAULT_MASTER_INT_START, Io::DEFAULT_SLAVE_INT_START);
-    Arch::Timer::Init();
+    // Arch::PopulateIDT(); // TODO: Unify to one function Arch::init or something
+    // Arch::SetIDT();
+    // Arch::Timer::Init();
 
-    OS::TextDisplay::GetDefault().Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!");
+    // Io::PortByteOut(0x3d4, 14);
+    // Io::PortByteOut(0x3d5, 0);
+    // Io::PortByteOut(0x3d4, 15);
+    // Io::PortByteOut(0x3d5, 5);
+
+    OS::TextDisplay::GetDefault().SetCusror(5, 3);
+    OS::TextDisplay::GetDefault().Print("Hello, world\nThis is a very important message\nFROM THE 32 BIT KERNEL!!!\n");
 
     // __asm__ __volatile__("int $32");
 
